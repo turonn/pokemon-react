@@ -1,5 +1,5 @@
 import './App.css';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom'
 import About from './About.js'
 import Home from './Home.js'
 import {useEffect, useState} from 'react'
@@ -19,14 +19,20 @@ function App() {
 
   return (
     <Router>
-      <div className="App">
-          <h3 className="text-2xl">Hello World</h3>
+      <div className="p-14">
+        <div className="flex flex-col items-center">
+          <Link to="/">
+            <header className="text-4xl text-yellow-700">Pokemon Picker</header>
+          </Link>
+        </div>
       </div>
-      {pokemon &&
-      <Home pokemon={pokemon.results}/>}
       <Switch>
         <Route path="/about/:slug">
           <About />
+        </Route>
+        <Route path="/">
+          {pokemon &&
+          <Home pokemon={pokemon.results}/>}
         </Route>
       </Switch>
     </Router>
