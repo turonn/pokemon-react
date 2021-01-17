@@ -5,8 +5,9 @@ import Home from './Home.js'
 import {useEffect, useState, useMemo} from 'react'
 
 function App() {
-  const [pokemon, setPokemon] = useState();
-  const [text, setText] = useState();
+  const [pokemon, setPokemon] = useState([]);
+  const [filteredPokemon, setFilteredPokemon] = useState([]);
+  const [text, setText] = useState('');
   useEffect( () => {
     fetch("https://pokeapi.co/api/v2/pokemon?offset=0")
     .then((res) => res.json())
@@ -17,6 +18,16 @@ function App() {
       setPokemon({...data, results});
     });
   })
+  
+  useMemo(() => {
+    if(text.length == 0 ) {
+      setFilteredPokemon([]);
+      return;
+      }
+    setFilteredPokemon(() => 
+      pokemon.results?.filter((pokemon) => pokemon.name.includes(text))
+    )
+  }, [pokemon.results, text]);
 
   return (
     <Router>
@@ -28,21 +39,22 @@ function App() {
         </div>
       </div>
 
-      <div className='w-full flex justify-center'>
-        <input 
-          type='text' 
-          placeholder='search pokemon here' 
-          className="mt-10 p-2 border-blue-500 border-2 text-center"
-          onChange={($event) => setText($event.target.value)}/>
-      </div>
+
 
       <Switch>
         <Route path="/about/:slug">
           <About />
         </Route>
         <Route path="/">
-          {pokemon &&
-          <Home pokemon={pokemon.results}/>}
+          <div className='w-full flex justify-center'>
+          <input 
+            type='text' 
+            placeholder='search pokemon here' 
+            className="mt-10 p-2 border-blue-500 border-2 text-center"
+            onChange={($event) => setText($event.target.value)}/>
+          </div>
+          {filteredPokemon &&
+          <Home pokemon={filteredPokemon}/>}
         </Route>
       </Switch>
     </Router>
