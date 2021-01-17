@@ -1,6 +1,7 @@
 import './App.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import About from './About.js'
+import Home from './Home.js'
 import {useEffect, useState} from 'react'
 
 function App() {
@@ -21,6 +22,8 @@ function App() {
       <div className="App">
           <h3 className="text-2xl">Hello World</h3>
       </div>
+      {pokemon &&
+      <Home pokemon={pokemon.results}/>}
       <Switch>
         <Route path="/about/:slug">
           <About />
