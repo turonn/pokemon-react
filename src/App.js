@@ -17,7 +17,7 @@ function App() {
       });
       setPokemon({...data, results});
     });
-  })
+  },[])
   
   useMemo(() => {
     if(text.length == 0 ) {
@@ -33,25 +33,23 @@ function App() {
     <Router>
       <div className="p-14">
         <div className="flex flex-col items-center">
-          <Link to="/">
+          <Link to="/" >
             <header className="text-4xl text-yellow-700">Pokemon Picker</header>
           </Link>
         </div>
       </div>
 
-
-
       <Switch>
         <Route path="/about/:slug">
-          <About />
+          <About setFilteredPokemon={setFilteredPokemon}/>
         </Route>
         <Route path="/">
           <div className='w-full flex justify-center'>
-          <input 
-            type='text' 
-            placeholder='search pokemon here' 
-            className="mt-10 p-2 border-blue-500 border-2 text-center"
-            onChange={($event) => setText($event.target.value)}/>
+            <input 
+              type='text' 
+              placeholder='search pokemon here' 
+              className="mt-10 p-2 border-blue-500 border-2 text-center"
+              onChange={($event) => setText($event.target.value)}/>
           </div>
           {filteredPokemon &&
           <Home pokemon={filteredPokemon}/>}

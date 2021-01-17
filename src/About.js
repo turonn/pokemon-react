@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
-export default function About() {
+export default function About(props) {
     const { slug } = useParams();
     const [pokemon, setPokemon] = useState();
 
@@ -11,6 +11,7 @@ export default function About() {
         .then((data) =>{
             setPokemon(data);
         })
+        props.setFilteredPokemon([]);
     }, [slug]);
 
     return (
