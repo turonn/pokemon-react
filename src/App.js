@@ -2,10 +2,11 @@ import './App.css';
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom'
 import About from './About.js'
 import Home from './Home.js'
-import {useEffect, useState} from 'react'
+import {useEffect, useState, useMemo} from 'react'
 
 function App() {
   const [pokemon, setPokemon] = useState();
+  const [text, setText] = useState();
   useEffect( () => {
     fetch("https://pokeapi.co/api/v2/pokemon?offset=0")
     .then((res) => res.json())
@@ -26,6 +27,15 @@ function App() {
           </Link>
         </div>
       </div>
+
+      <div className='w-full flex justify-center'>
+        <input 
+          type='text' 
+          placeholder='search pokemon here' 
+          className="mt-10 p-2 border-blue-500 border-2 text-center"
+          onChange={($event) => setText($event.target.value)}/>
+      </div>
+
       <Switch>
         <Route path="/about/:slug">
           <About />
